@@ -5,7 +5,7 @@ const Products = db.products;
 // Create and Save a new product
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.title) {
+  if (!req.body.name) {
     res.status(400).send({ message: "Content can not be empty!" });
     return;
   }
@@ -33,7 +33,7 @@ exports.create = (req, res) => {
 
 // Get all Products from the database.
 exports.findAll = (req, res) => {
-  Products.findAll()
+  Products.find({})
     .then(data => {
       res.send(data);
     })
