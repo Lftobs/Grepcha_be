@@ -22,7 +22,7 @@ exports.signUp = async (req, res) => {
         const salt = await bcrypt.genSalt(10)
         const hashPwd =  await bcrypt.hash(req.body.password, salt)
         req.body.password = hashPwd
-        const user = new User(req.body)
+        const user = new Users(req.body)
         
         user
         .save(user)
