@@ -2,9 +2,11 @@ const User =  require('./app/models/auth.model')
 const jwt = require('jsonwebtoken')
 const isLegit = async (req, res, next) => {
     try {
-        const {token} = req.cookies
-        if (!token) {
-            next('Please log in to gain access')
+        const token = req.cookies.token
+	console.log(req.cookies.token)
+        if (!token){
+            //next('Please log in to gain access')
+	return res.status(401).send({ message: "Unauthorized!" }) 
         }
 
         const verify = await jwt.verify(token, process.env.SECRET_KEY)

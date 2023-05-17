@@ -13,11 +13,12 @@ exports.signUp = async (req, res) => {
             ;
         }
         
-        // const existingUser = await Users.find({})
+            const existingUser = await Users.findOne({username: req.body.username})
+	    console.log(existingUser, 'eu')
         
-        // if (existingUser) {
-        //     return res.json({message: 'User already exist!'})
-        // }
+         if (existingUser) {
+             return res.json({message: 'User already exist!'})
+         }
     
         const salt = await bcrypt.genSalt(10)
         const hashPwd =  await bcrypt.hash(req.body.password, salt)
@@ -27,7 +28,7 @@ exports.signUp = async (req, res) => {
         user
         .save(user)
         .then(data => {
-        res.send(data);
+        //res.send(data);
         })
         .catch(err => {
         res.status(500).send({
@@ -36,7 +37,7 @@ exports.signUp = async (req, res) => {
         });
         });
     
-        const token = async () => await jwt.sign({id: user.id}, process.env.SECRET_KEY,{expiresIn: process.env.EXPIRE})
+        const token = await jwt.sign({id: user.id}, process.env.SECRET_KEY,{expiresIn: process.env.EXPIRE})
     
         return res.cookie({'token': token}).json({success: true, message: 'User resgistered sucesssfully', data: user})
     } catch (error) {
@@ -66,9 +67,12 @@ exports.signIn = async (req, res) => {
             res.status(401).send({ message: "Invalid password!" }); 
         }
 
-        return res.cookie({'token': token}).json({success: true, message: 'User logged in sucesssfully', data: user})
+	const token = await jwt.sign({id: existingUser.id}, process.env.SECRET_KEY,{expiresIn: process.env.EXPIRE})
+
+        return res.cookie('token', token).json({success: true, message: 'User logged in sucesssfully'})
 
     } catch (error) {
+	console.log(error)
         return res.json({error: error})
     }
   };
