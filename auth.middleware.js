@@ -1,5 +1,7 @@
 const User =  require('./app/models/auth.model')
 const jwt = require('jsonwebtoken')
+const db = require("./app/models");
+const Users = db.users;
 const isLegit = async (req, res, next) => {
     try {
         const token = req.cookies.token

@@ -13,10 +13,10 @@ module.exports = app => {
     router.get("/:id", products.findOne);
   
     // Update a product with id
-    router.put("/:id", products.update);
+    router.put("/:id", auth, products.update);
   
     // Delete a product with id
-    router.delete("/:id", products.delete);
+    router.delete("/:id", auth, products.delete);
 
   
     app.use('/api/products', router);

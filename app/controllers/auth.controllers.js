@@ -31,7 +31,7 @@ exports.signUp = async (req, res) => {
         //res.send(data);
         })
         .catch(err => {
-        res.status(500).send({
+        return res.status(500).send({
             message:
             err.message || "Some error occurred while creating the user."
         });
@@ -64,7 +64,8 @@ exports.signIn = async (req, res) => {
 
         const correctPwd = await bcrypt.compare(password, existingUser.password)
         if (!correctPwd) {
-            res.status(401).send({ message: "Invalid password!" }); 
+            return res.status(401).send({ message: "Invalid password!" });
+	    
         }
 
 	const token = await jwt.sign({id: existingUser.id}, process.env.SECRET_KEY,{expiresIn: process.env.EXPIRE})
