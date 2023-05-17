@@ -9,6 +9,8 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.use(cookieParser())
+
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
@@ -33,6 +35,7 @@ app.get("/", (req, res) => {
 });
 
 require("./app/routes/products.routes")(app)
+require("./app/routes/auth.routes")(app)
 
 
 const PORT = process.env.PORT || 8080;
