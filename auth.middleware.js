@@ -1,5 +1,7 @@
 const User =  require('./app/models/auth.model')
 const jwt = require('jsonwebtoken')
+const db = require("./models");
+const Users = db.users;
 const isLegit = async (req, res, next) => {
     try {
         const token = req.cookies.token
@@ -10,7 +12,7 @@ const isLegit = async (req, res, next) => {
         }
 
         const verify = await jwt.verify(token, process.env.SECRET_KEY)
-        req.user = await User.findById(verify.id)
+        req.user = await Users.findById(verify.id)
         next()
     } catch (error) {
         next(error)
