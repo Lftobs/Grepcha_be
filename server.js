@@ -6,7 +6,7 @@ require("dotenv").config();
 const app = express();
 
 var corsOptions = {
-  origin:'http://localhost:4200',
+  origin:'https://angular-fe-three.vercel.app',
   credentials:true
 };
 
